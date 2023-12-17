@@ -71,7 +71,7 @@ pub fn get_current_shader() -> Option<ShaderInstanceId> {
     *CURRENT_SHADER.borrow()
 }
 
-use std::{sync::atomic::AtomicU64, collections::BTreeMap};
+use std::{collections::BTreeMap, sync::atomic::AtomicU64};
 
 static SHADER_IDS: AtomicU64 = AtomicU64::new(0);
 
