@@ -176,25 +176,7 @@ impl AudioSystemImpl {
         // TODO: get rid of excessive locking while processing a queue
         let sounds = assets.sounds.lock();
 
-        if let Some(mut sound_data) = sounds.get(&sound).cloned() {
-            // TODO: don't ignore settings
-            if let Some(_settings) = settings {
-                match track {
-                    AudioTrack::None => {}
-                    AudioTrack::Filter => {
-                        sound_data.settings = sound_data
-                            .settings
-                            .output_destination(&self.filter_track);
-                    }
-                }
-            } else {
-                sound_data.settings =
-                    sound_data.settings.output_destination(&self.master_track);
-            }
-
-            sound_data.settings =
-                sound_data.settings.output_destination(&self.master_track);
-
+        if let Some(sound_data) = sounds.get(&sound).cloned() {
             match self.manager.play(sound_data) {
                 Ok(handle) => {
                     match assets.sound_handles.entry(sound) {
